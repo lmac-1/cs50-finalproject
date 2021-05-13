@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&display=swap');
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+    font-family: Montserrat;
+    background-color: #F2F2F2;
+}
+
+.container {
+  max-width: 960px;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+#principal-title, #second-title {
+    text-align: center;
+    margin: auto;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+#principal-title span {
+    color: #D9043D;
+    font-weight: 400;
+}
+
+.home-h2 {
+    color: #262A40;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.home-h {
+    color: white;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.styletext {
+    color: #D91E63;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.info-p {
+    line-height: 1.7rem;
+    padding-bottom: 1rem;
+
+}
+
+.fw-100 {
+    font-weight: 100;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.text-pink {
+    color: #D91E63;
+}
+
+.background-pink {
+    background-color: #D91E63;
+}

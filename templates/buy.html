@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 text-pink">
+            Buy Group Classes
+        </h1>
+        <p class="lead">
+            Join our interactive group classes with students from all over the world. Learn from anywhere and watch our classes live on Zoom from your computer, phone, tablet or television!
+        </p>
+    </div>
+
+    <div class="card-deck mb-3 text-center">
+
+        <!--1 Hour-->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header background-pink">
+                <h4 class="my-0 font-weight-normal text-white">
+                    1 Hour
+                </h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                    €{{ packages[1]['price'] }}
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Choose 1 class from our timetable</li>
+                    <li>Access to our private Facebook group</li>
+                </ul>
+                <div class="pt-sm-4">
+                    <button id="buy1" type="button" class="btn btn-lg btn-block btn-outline-success" data-toggle="modal" data-target="#staticBackdrop">
+                        Buy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!--4 hours-->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header background-pink">
+                <h4 class="my-0 font-weight-normal text-white">
+                    4 Hours
+                </h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                    €{{ packages[4]['price'] }}
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Choose 4 classes from our timetable</li>
+                    <li>Access to our private Facebook group</li>
+                </ul>
+                <div class="pt-sm-5">
+                    <button id="buy4" type="button" class="btn btn-lg btn-block btn-outline-success" data-toggle="modal" data-target="#staticBackdrop">
+                        Buy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!--8 Hours-->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header background-pink">
+                <h4 class="my-0 font-weight-normal text-white">
+                    8 Hours
+                </h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                    €{{ packages[8]['price'] }}
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Choose 8 classes from our timetable</li>
+                    <li>Access to our private Facebook group</li>
+                    <li><strong>BONUS: </strong>Send your videos to our teachers for feedback</li>
+                </ul>
+                <button id="buy8" type="button" class="btn btn-lg btn-block btn-outline-success" data-toggle="modal" data-target="#staticBackdrop">
+                    Buy
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Buy Package
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form name="startdate" action="/buy" method="post">
+                    <div class="modal-body">
+                        <div class ="form-group">
+                            <input type="text" class="form-control" id="hours" name="hours" hidden>
+                        </div>
+                        <div class ="form-group">
+                            <input type="number" step="0.01" class="form-control" name="price" id="price" hidden>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputdate">Start date:</label>
+                            <input type="date" class="form-control" id="start_date" min="{{ today }}" max="{{ one_week_later }}" name="start_date" aria-describedby="dateHelp">
+                            <small id="dateHelp" class="form-text text-muted">
+                                Please choose a date within the next 7 days.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label id="expiryLabel"></label>
+                            <input type="date" class="form-control" name="expirydate" id="expirydate" readonly>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <label>
+                            Are you sure?
+                        </label>
+                        <button type="submit" class="btn btn-outline-success">
+                            Yes
+                        </button>
+                        <button type="button" id="closemodal" class="btn btn-outline-danger" data-dismiss="modal">
+                            No
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // Creates global 'packageInfo' variable that uses the Jinja variable, that we'll use in the external JS file
+        const packageInfo = JSON.parse('{{ packages | tojson}}');
+    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='buy.js')}}"></script>
+{% endblock %}

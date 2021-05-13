@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-5 text-pink">
+                You're unable to complete this action
+        </h1>
+        <p class="lead">
+                <strong>{{ message }}</strong>
+        </p>
+        {% if page == "reserve" %}
+                <a href="/buy" class="btn btn-outline-danger mt-3">
+                        Buy classes
+                </a>
+        {% elif page == "buy" %}
+                <a href="/reserve" class="btn btn-outline-danger mt-3">
+                        Reserve classes
+                </a>
+        {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="row justify-content-md-center">
+    <div class="col-xl-8 box-col-6 col-lg-8 col-md-8">
+        <div class="text-center mt-4 pt-3 pb-4">
+            <h1 class="display-4 text-pink">
+              Reserve
+            </h1>
+            <p class="h5">
+              You have
+              <strong>
+                {% if remaining_hours == 1 %} 1 class {% else %}{{ remaining_hours }} classes{% endif %}</strong> left to use {% if total_days == 1 %} before tomorrow {% else %} in {{ total_days }} days. {% endif %}
+            </p>
+            <p class="font-italic">
+              Please see the available classes to book:
+            </p>
+        </div>
+        <div class="card text-center mb-3 shadow rounded">
+            <div class="card-body">
+              <div class="form-group table-responsive-lg">
+                  <table class="table table-borderless">
+                      <thead>
+                          <tr>
+                              <th scope="col">Days/Time</th>
+                              <th scope="col">Class</th>
+                              <th scope="col">Spaces</th>
+                              <th scope="col"></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for class in classes %}
+                          <tr>
+                              <th>
+                                {{ change_date_format(class["date"]) }}
+                                  <p>({{ class["time"] }}PM)</p>
+                              </th>
+                              <td>
+                                  {{ class["styles"] }}
+                                  <p>({{ class["teacher"] }})</p>
+                              </td>
+                              <td>{{ class["spaces"] }}</td>
+                              <td>
+                                {% if class["id"] in reservations %}
+                                  <button type="button" class="btn btn-success btn-sm" disabled>
+                                    Confirmed!
+                                  </button>
+                                {% elif class["spaces"] == 0 %}
+                                  <button type="button" class="btn btn-danger btn-sm" disabled>
+                                    Full
+                                  </button>
+                                {% else %}
+                                  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#staticBackdrop" onclick="populateClassID({{class['id']}}, {{class['spaces']}})">
+                                    Book
+                                  </button>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content text-center">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      Book this class?
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="/reserve" method="post">
+                  <div class="modal-body">
+                    <div class ="form-group">
+                        <input type="text" class="form-control" id="classID" name="classID" hidden>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="classSpaces" id="classSpaces" hidden>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="transactionID" value="{{transaction_id}}" hidden>
+                    </div>
+                    <div class="form-group">
+                      <p>You will not be able to cancel this class once reserved.</p>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-outline-success">
+                        Book
+                      </button>
+                      <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+</div>
+<script>
+  // Takes the Class ID from the Jinja variables and saves in a hidden form item in modal window when modal opened
+  function populateClassID(id,spaces) {
+    document.querySelector('#classID').value = id;
+    document.querySelector('#classSpaces').value = spaces;
+  }
+
+  // Opens modal popup
+  $('#staticBackdrop').on('shown.bs.modal', function () {
+      $('#modal').trigger('focus');
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="row text-center">
+        <div class="col mt-5">
+            <h1 id="principal-title">
+                Welcome <span>{{ name }}</span>
+            </h1>
+            <h2 id="second-title">
+                From {{ country }}
+            </h2>
+        </div>
+    </div>
+
+    <div class="card text-center shadow rounded border-0 mt-4">
+            {% if active_packages == 0 %}
+                <div class="card-body">
+                    <p class="card-text card-text-home">
+                        You don't have any active packages to reserve new classes.
+                        <a class="card-title text-success" href="/buy">Buy packages</a>
+                    </p>
+            {% else %}
+                <div class="card-body align-items-center text-white background-pink">
+                    <p style="font-weight: 600;">
+                        Keep dancing, you're doing well!
+                    </p>
+            {% endif %}
+            </div>
+        </div>
+
+    <div class="row row-col2">
+
+        <div class="col-sm table-responsive-sm mr-0">
+            <div class="card text-center shadow rounded border-0 mt-4">
+                <div class="card-header" style="background-color: #F2B705;">
+                    <div class="row">
+                        <div class="col-sm pt-1 list-inline d-flex align-items-sm-center justify-content-sm-center">
+                            <img class="position-static list-inline-item" src="https://img.icons8.com/dotty/64/ffffff/calendar-15.png"/>
+                            <div class="list-inline-item text-white">
+                                <h2 class="home-h2 d-md-block d-md-none d-sm-blocks mx-auto text-white">
+                                    Timetable
+                                </h2>
+                                <p>
+                                    {{ week }} week's group classes
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 text-white">
+                            <p class="home-p py-1 ">
+                                <small>Not sure which style to learn? <a href="/info" class="text-dark">Find out more</a></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for class in timetable_classes %}
+                                <tr>
+                                    <td>
+                                        {{ change_date_format(class["date"]) }}
+                                        <p>({{ class["time"] }})</p>
+                                    </td>
+                                    <td>
+                                        {{ class["styles"] }}
+                                        <p>({{ class["teacher"] }})</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card text-center bg-light mb-3 shadow rounded border-0 mt-4">
+                <div class="card-header" style="background-color: #612A8A;">
+                    <div class="row">
+                        <div class="col-sm-3 pb-2 pt-2 mx-auto">
+                            <img src="https://img.icons8.com/wired/64/ffffff/dancing.png"/>
+                        </div>
+                        <div class="col-sm-8 pb-2 pt-2 mx-auto text-white d-flex align-items-center">
+                            <h2 class="home-h d-md-block d-md-none d-sm-blocks mx-auto">Your Reservations</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body border pt-0 pl-0 pb-0">
+                    {% if reservations == [] %}
+                        <div class="p-3">
+                            You don't have any reservations
+                        </div>
+                    {% else %}
+                    <div class="table-responsive">
+                        <table class="table table-nowrap ">
+                            <tbody>
+                                {% for reservation in reservations %}
+                                <tr>
+                                    <td>
+                                        <span>{{ change_date_format(reservation['date']) }}</span>
+                                        <p>({{ reservation['time'] }})</p>
+                                    </td>
+                                    <td class="pt-4">
+                                        <span class="mx-auto"><strong>{{ reservation['style'] }}</strong></span>
+                                    </td>
+                                    <td class="pt-3">
+                                        <a href="{{ reservation['zoom_link'] }}" target="_blank" type="button" class="btn btn-outline-primary btn-sm">
+                                            Zoom
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
